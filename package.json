@@ -32,7 +32,8 @@
     "reporter": [
       "lcov",
       "text-summary"
-    ]
+    ],
+    "temp-directory": "/tmp/.nyc_output"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

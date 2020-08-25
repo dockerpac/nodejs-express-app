@@ -33,7 +33,8 @@
       "lcov",
       "text-summary"
     ],
-    "temp-directory": "/tmp/.nyc_output"
+    "temp-directory": "/tmp/.nyc_output",
+    "report-dir": "/tmp/coverage"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

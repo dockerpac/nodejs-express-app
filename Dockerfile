@@ -1,15 +1,9 @@
-FROM registry.access.redhat.com/ubi7/ubi
-
-RUN curl -sL https://rpm.nodesource.com/setup_12.x | bash -
-RUN yum install -y nodejs
+FROM node:14.8.0-stretch-slim
 
 RUN mkdir /app
 WORKDIR /app
-
-COPY package.json /app
-RUN npm install --only=prod
-COPY server /app/server
-COPY public /app/public
+COPY . .
+RUN npm install
 
 ENV NODE_ENV production
 ENV PORT 3000

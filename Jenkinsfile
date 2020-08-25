@@ -36,6 +36,7 @@ pipeline {
                 script {
                     app.inside {
                         sh 'echo "Tests passed"'
+                        sh 'npm test'
                     }
                 }
             }

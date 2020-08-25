@@ -24,7 +24,7 @@ pipeline {
                 script {
                     env.GIT_COMMIT_REV = sh (script: 'git log -n 1 --pretty=format:"%h"', returnStdout: true)
 
-                    def app = docker.build("${DOCKER_IMAGE_NAME}:${GIT_COMMIT_REV}")
+                    def customImage = docker.build("${DOCKER_IMAGE_NAME}:${GIT_COMMIT_REV}")
                 }
             }
         }
@@ -34,7 +34,7 @@ pipeline {
             }
             steps {
                 script {
-                    app.inside {
+                    customImage.inside {
                         sh 'npm test'
                     }
                 }
@@ -47,8 +47,8 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub_creds') {
-                        app.push("${env.BUILD_NUMBER}")
-                        app.push("latest")
+                        customImage.push("${env.BUILD_NUMBER}")
+                        customImage.push("latest")
                     }
                 }
             }

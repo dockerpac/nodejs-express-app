@@ -35,7 +35,6 @@ pipeline {
             steps {
                 script {
                     app.inside {
-                        sh 
                         sh 'npm run test'
                     }
                 }

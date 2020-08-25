@@ -24,7 +24,7 @@ pipeline {
                 script {
                     env.GIT_COMMIT_REV = sh (script: 'git log -n 1 --pretty=format:"%h"', returnStdout: true)
 
-                    app = docker.build("${DOCKER_IMAGE_NAME}:${GIT_COMMIT_REV}")
+                    def app = docker.build("${DOCKER_IMAGE_NAME}:${GIT_COMMIT_REV}")
                 }
             }
         }
@@ -35,7 +35,6 @@ pipeline {
             steps {
                 script {
                     app.inside {
-                        sh 'echo "Tests passed"'
                         sh 'npm test'
                     }
                 }

@@ -1,7 +1,6 @@
 pipeline {
     agent any
     environment {
-        //be sure to replace "willbla" with your own Docker Hub username
         DOCKER_IMAGE_NAME = "ptran32/nodejs-express-app"
     }
     
@@ -10,44 +9,30 @@ pipeline {
     }
 
     stages {
-        stage('Checkout SCM') {
+        stage('Clean Workspace') {
             steps {
-                checkout scm
+            deleteDir()
+            }
+        }
+        stage('Git Clone Source') {
+            steps {
+                git url: 'https://github.com/ptran32/nodejs-express-app.git'
             }
         }
 
-        stage('Build Docker Image') {
-            when {
-                branch 'master'
-            }
+        stage('Test and Build Docker Image') {
             steps {
                 script {
                     env.GIT_COMMIT_REV = sh (script: 'git log -n 1 --pretty=format:"%h"', returnStdout: true)
-
-                    def customImage = docker.build("${DOCKER_IMAGE_NAME}:${GIT_COMMIT_REV}")
+                    customImage = docker.build("${DOCKER_IMAGE_NAME}:${GIT_COMMIT_REV}-${env.BUILD_NUMBER}")
                 }
             }
         }
-        stage('Run Tests') {
-            when {
-                branch 'master'
-            }
-            steps {
-                script {
-                    customImage.inside {
-                        sh 'npm test'
-                    }
-                }
-            }
-        }        
         stage('Push Docker Image') {
-            when {
-                branch 'master'
-            }
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub_creds') {
-                        customImage.push("${env.BUILD_NUMBER}")
+                        customImage.push("${GIT_COMMIT_REV}-${env.BUILD_NUMBER}")
                         customImage.push("latest")
                     }
                 }
@@ -55,4 +40,3 @@ pipeline {
         }
     }
 }
-

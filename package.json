@@ -25,16 +25,14 @@
     "lines": 100,
     "statements": 100,
     "functions": 100,
-    "branches": 50,
+    "branches": 100,
     "exclude": [
       "test"
     ],
     "reporter": [
       "lcov",
       "text-summary"
-    ],
-    "temp-directory": "/tmp/.nyc_output",
-    "report-dir": "/tmp/coverage"
+    ]
   },
   "dependencies": {
     "body-parser": "^1.19.0",

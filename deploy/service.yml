@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name:  nodejs-express
+spec:
+  selector:
+    app:  nodejs-express
+  type:  NodePort
+  ports:
+  - protocol: TCP
+    targetPort:  3000
+    nodePort: 8100

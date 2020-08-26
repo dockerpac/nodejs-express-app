@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nodejs-express
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nodejs-express
+  template:
+    metadata:
+      labels:
+        app: nodejs-express
+    spec:
+      containers:
+      - name: nodejs-express
+        image: ${DOCKER_IMAGE_NAME}:${GIT_COMMIT_REV}-${env.BUILD_NUMBER}
+        ports: 
+          - containerPort: 3000

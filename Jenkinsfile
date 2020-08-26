@@ -44,14 +44,14 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to kubernetes staging') {
+        stage('Deploy to kubernetes cluster') {
             when {
                 branch 'master'
             }
             steps {
                 kubernetesDeploy(
-                    kubeconfigId: 'kubeconfig-staging',
-                    configs: 'deployment/*.yaml',
+                    kubeconfigId: 'kubeconfig',
+                    configs: 'deploy/*.yml',
                     enableConfigSubstitution: true
                 )
             }

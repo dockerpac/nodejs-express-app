@@ -21,6 +21,9 @@ pipeline {
         }
 
         stage('Test and Build Docker Image') {
+            when {
+                branch 'master'
+                }
             steps {
                 script {
                     env.GIT_COMMIT_REV = sh (script: 'git log -n 1 --pretty=format:"%h"', returnStdout: true)
@@ -29,6 +32,9 @@ pipeline {
             }
         }
         stage('Push Docker Image') {
+            when {
+                branch 'master'
+            }
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub_creds') {
@@ -36,6 +42,18 @@ pipeline {
                         customImage.push("latest")
                     }
                 }
+            }
+        }
+        stage('Deploy to kubernetes staging') {
+            when {
+                branch 'master'
+            }
+            steps {
+                kubernetesDeploy(
+                    kubeconfigId: 'kubeconfig-staging',
+                    configs: 'deployment/*.yaml',
+                    enableConfigSubstitution: true
+                )
             }
         }
     }

@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: nodejs-express
-        image: $DOCKER_IMAGE_NAME:$GIT_COMMIT_REV-$env.BUILD_NUMBER
+        image: $DOCKER_IMAGE_NAME:$GIT_COMMIT_REV-$BUILD_NUMBER
         ports: 
           - containerPort: 3000

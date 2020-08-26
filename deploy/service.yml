@@ -9,4 +9,4 @@ spec:
   ports:
   - protocol: TCP
     port: 3000
-    nodePort: 8100
+    nodePort: 8080
